@@ -1,0 +1,84 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = groupId
+version = projVersion
+
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://mvn.falsepattern.com/releases"
+    }
+}
+
+dependencies {
+    compileOnly("org.spongepowered:mixin:0.8.3-gasstation")
+    compileOnly("org.apache.commons:commons-lang3:3.3.2")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    withSourcesJar()
+}
+
+
+// publishing
+
+def getMavenSettingsCredentials = {
+    String userHome = System.getProperty( "user.home" )
+    File mavenSettings = new File(userHome, ".m2/settings.xml")
+    def xmlSlurper = new XmlSlurper()
+    def output = xmlSlurper.parse(mavenSettings)
+    return output."servers"."server"
+}
+
+def getCredentials = {
+    String username = System.getenv("MAVEN_DEPLOY_USER")
+    String password = System.getenv("MAVEN_DEPLOY_PASSWORD")
+    if (username == null) {
+        try {
+            def entries = getMavenSettingsCredentials()
+            for (entry in entries) {
+                if (entry."id".text() == repositoryName) {
+                    return [username: entry.username.text(), password: entry.password.text()]
+                }
+            }
+        } catch (Exception ignored){}
+        return [username: "none", password: "none"]
+    } else {
+        return [username: username, password: password]
+    }
+}
+
+//Publishing
+publish.dependsOn(build)
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact source: jar, classifier: ""
+
+            groupId = groupId
+            artifactId = artifactId
+            version = projVersion
+        }
+    }
+
+    repositories {
+        if (repositoryURL.trim() != "") {
+            maven {
+                name = repositoryName
+                url = repositoryURL
+                def creds = getCredentials()
+                credentials {
+                    username = creds?.username ?: "none"
+                    password = creds?.password ?: "none"
+                }
+            }
+        }
+    }
+}
+

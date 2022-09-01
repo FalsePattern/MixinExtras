@@ -1,8 +1,8 @@
 package com.llamalad7.mixinextras.injector;
 
 import com.llamalad7.mixinextras.utils.CompatibilityHelper;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
+import org.spongepowered.asm.lib.Opcodes;
+import org.spongepowered.asm.lib.tree.*;
 import org.spongepowered.asm.mixin.injection.code.Injector;
 import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.injection.struct.InjectionNodes.InjectionNode;

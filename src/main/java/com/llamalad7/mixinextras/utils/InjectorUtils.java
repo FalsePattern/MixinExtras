@@ -1,6 +1,6 @@
 package com.llamalad7.mixinextras.utils;
 
-import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.injection.struct.InjectionNodes;
 
 public class InjectorUtils {
