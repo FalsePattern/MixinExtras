@@ -14,9 +14,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spongepowered:mixin:0.8.3-gasstation")
+    compileOnly("org.spongepowered:mixin:0.8.5-gasstation_4")
     compileOnly("org.apache.commons:commons-lang3:3.3.2")
 }
+
+tasks.withType(Jar.class, {
+    from("LICENSE") {
+        rename { "${it}_MixinExtras"}
+    }
+})
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
