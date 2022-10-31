@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spongepowered:mixin:0.8.5-gasstation_4")
+    compileOnly("org.spongepowered:mixin:0.8.5-gasstation_5")
     compileOnly("org.apache.commons:commons-lang3:3.3.2")
 }
 
